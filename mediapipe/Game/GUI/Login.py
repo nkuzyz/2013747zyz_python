@@ -3,8 +3,10 @@ from PyQt5.QtWidgets import *
 from PyQt5.QtGui import QIcon
 from PyQt5.QtCore import Qt
 from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5.QtMultimedia import QSound
+
 # from MainUI import Ui_MainWindow
-from MainMenu import Ui_MainWindow
+from Game.GUI.Menu import Ui_Form
 
 class LoginWIn(QtWidgets.QMainWindow):
     def __init__(self):
@@ -16,11 +18,11 @@ class LoginWIn(QtWidgets.QMainWindow):
 
     def initUI(self):
 
-        self.setWindowTitle('MediaPipe')
+        self.setWindowTitle('趣味工具箱')
         # 设置窗口位置居中
         self.resize(300, 200)
         self.setFixedSize(300, 200)
-        self.move(desk.width() / 2 - self.width() / 2, 400)
+        self.move(QApplication.desktop().width() / 2 - self.width() / 2, 400)
 
 
         # 添加菜单帮助栏
@@ -53,10 +55,11 @@ class LoginWIn(QtWidgets.QMainWindow):
         btnlogin.move(0, 80)
         btnquit.move(110, 80)
         # 链接到槽实现登录
-
+        sound = QSound('../Resources/click.wav', self)
         btnlogin.clicked.connect(self.myBtnClick)
-
+        btnlogin.clicked.connect(sound.play)
         btnquit.clicked.connect(self.myBtnClick)
+        btnquit.clicked.connect(sound.play)
 
         # 设置位置
         myframe.move(50, 50)
@@ -69,7 +72,7 @@ class LoginWIn(QtWidgets.QMainWindow):
     def myBtnClick(self):
         # 获取源
         source = self.sender()
-        account_dict = {'1': '1'}
+        account_dict = {'2013747': '123'}
         if source.text() == '登录':
             user = self.userline.text()
             password = self.passwordline.text()
@@ -80,7 +83,7 @@ class LoginWIn(QtWidgets.QMainWindow):
 
             elif password == account_dict[user]:
                 LoginWIn.close(self)
-                self.ui = Ui_MainWindow()
+                self.ui = Ui_Form()
                 self.ui.show()
             else:
                 reply2 = QMessageBox.information(self, '登录出错', '密码错误', QMessageBox.Yes | QMessageBox.No,
@@ -90,16 +93,18 @@ class LoginWIn(QtWidgets.QMainWindow):
 
     # 定义帮助函数
     def Help(self):
-        msgbox = QMessageBox(QMessageBox.Information, '帮助', '初始用户：Admin \n 初始密码：123456', QMessageBox.Ok, self)
+        msgbox = QMessageBox(QMessageBox.Information, '帮助', '初始用户：2013747 \n 初始密码：123', QMessageBox.Ok, self)
         # 显示提示窗口
         msgbox.show()
 
     def other(self):
-        print('其他')
+        msgbox = QMessageBox(QMessageBox.Information, '其他', '制作者姓名：张怡桢 \n 制作者学号：2013747', QMessageBox.Ok, self)
+        # 显示提示窗口
+        msgbox.show()
 
-
-if __name__ == "__main__":
-    app = QApplication(sys.argv)
-    desk = QApplication.desktop()
-    menu = LoginWIn()
-    sys.exit(app.exec_())
+#
+# if __name__ == "__main__":
+#     app = QApplication(sys.argv)
+#     desk = QApplication.desktop()
+#     menu = LoginWIn()
+#     sys.exit(app.exec_())
